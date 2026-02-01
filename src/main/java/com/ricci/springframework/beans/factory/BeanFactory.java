@@ -1,0 +1,7 @@
+package com.ricci.springframework.beans.factory;
+
+import com.ricci.springframework.beans.factory.BeanException;
+
+public interface BeanFactory {
+    Object getBean(String beanName) throws BeanException;
+}
