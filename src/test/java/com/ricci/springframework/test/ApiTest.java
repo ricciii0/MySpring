@@ -3,7 +3,6 @@ package com.ricci.springframework.test;
 import com.ricci.springframework.beans.PropertyValue;
 import com.ricci.springframework.beans.PropertyValues;
 import com.ricci.springframework.beans.factory.config.BeanDefinition;
-import com.ricci.springframework.beans.factory.BeanFactory;
 import com.ricci.springframework.beans.factory.config.BeanReference;
 import com.ricci.springframework.beans.factory.support.DefaultListableBeanFactory;
 import com.ricci.springframework.test.bean.UserDao;
@@ -21,7 +20,7 @@ public class ApiTest {
         DefaultListableBeanFactory beanFactory = new DefaultListableBeanFactory();
 
         //2.
-        beanFactory.registryBeanDefinition("userDao", new BeanDefinition(UserDao.class));
+        beanFactory.registerBeanDefinition("userDao", new BeanDefinition(UserDao.class));
 
         //3.
         PropertyValues propertyValues = new PropertyValues();
@@ -30,7 +29,7 @@ public class ApiTest {
 
         //4.
         BeanDefinition beanDefinition = new BeanDefinition(UserService.class, propertyValues);
-        beanFactory.registryBeanDefinition("UserService",beanDefinition);
+        beanFactory.registerBeanDefinition("UserService",beanDefinition);
 
         //5.
         UserService userService = (UserService) beanFactory.getBean("UserService");
