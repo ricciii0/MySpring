@@ -8,17 +8,17 @@ import org.junit.Test;
 
 public class ApiTest {
 
+    //在 IntelliJ 的 Run/Debug Configurations 里加 VM options：
+    //
+    //--add-opens java.base/java.lang=ALL-UNNAMED
     @Test
     public void test_BeanFactory(){
-        DefaultListableBeanFactory beanFactory=new DefaultListableBeanFactory();
+        DefaultListableBeanFactory beanFactory= new DefaultListableBeanFactory();
 
         BeanDefinition beanDefinition=new BeanDefinition(UserService.class);
         beanFactory.registryBeanDefinition("UserService",beanDefinition);
 
-        UserService userService=(UserService)beanFactory.getBean("UserService");
+        UserService userService= (UserService) beanFactory.getBean("UserService","Ricci");
         userService.queryUserInfo();
-
-        UserService userService_singleton=(UserService) beanFactory.getBean("UserService");
-        userService_singleton.queryUserInfo();
     }
 }
