@@ -1,6 +1,6 @@
 package com.ricci.springframework.beans.factory.support;
 
-import com.ricci.springframework.beans.factory.BeanException;
+import com.ricci.springframework.beans.BeanException;
 import com.ricci.springframework.beans.factory.config.BeanDefinition;
 
 import java.lang.reflect.Constructor;
@@ -20,6 +20,9 @@ public class CglibSubclassingInstantiationStrategy implements InstantiationStrat
             }
         });
         if (ctor == null) {
+            return enhancer.create();
+        }
+        if (ctor.getParameterTypes().length == 0) {
             return enhancer.create();
         }
         return enhancer.create(ctor.getParameterTypes(), args);

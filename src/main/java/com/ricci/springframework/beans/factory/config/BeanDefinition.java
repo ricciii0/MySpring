@@ -1,19 +1,36 @@
 package com.ricci.springframework.beans.factory.config;
 
+import com.ricci.springframework.beans.PropertyValues;
+
 @SuppressWarnings("rawtypes")
 public class BeanDefinition {
 
     private Class beanClass;
 
-    public BeanDefinition(Class beanClass){
-        this.beanClass=beanClass;
+    private PropertyValues propertyValues;
+
+    public BeanDefinition(Class beanClass) {
+        this.beanClass = beanClass;
     }
 
-    public Class getBeanClass(){
+    public BeanDefinition(Class beanClass, PropertyValues propertyValues){
+        this.beanClass=beanClass;
+        this.propertyValues=propertyValues;
+    }
+
+    public Class getBeanClass() {
         return beanClass;
     }
 
-    public void setBeanClass(Class beanClass){
-        this.beanClass=beanClass;
+    public void setBeanClass(Class beanClass) {
+        this.beanClass = beanClass;
+    }
+
+    public PropertyValues getPropertyValues() {
+        return propertyValues;
+    }
+
+    public void setPropertyValues(PropertyValues propertyValues) {
+        this.propertyValues = propertyValues;
     }
 }
