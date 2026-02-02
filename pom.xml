@@ -32,6 +32,11 @@
       <artifactId>cglib</artifactId>
       <version>3.3.0</version>
     </dependency>
+    <dependency>
+      <groupId>cn.hutool</groupId>
+      <artifactId>hutool-all</artifactId>
+      <version>5.8.43</version>
+    </dependency>
   </dependencies>
 
   <build>
@@ -40,6 +45,14 @@
         <artifactId>maven-site-plugin</artifactId>
         <configuration>
           <locales>en,fr</locales>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>3.2.5</version>
+        <configuration>
+          <argLine>--add-opens java.base/java.lang=ALL-UNNAMED</argLine>
         </configuration>
       </plugin>
     </plugins>

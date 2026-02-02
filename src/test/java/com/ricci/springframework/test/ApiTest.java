@@ -1,8 +1,12 @@
 package com.ricci.springframework.test;
 
+import com.ricci.springframework.beans.PropertyValue;
+import com.ricci.springframework.beans.PropertyValues;
 import com.ricci.springframework.beans.factory.config.BeanDefinition;
 import com.ricci.springframework.beans.factory.BeanFactory;
+import com.ricci.springframework.beans.factory.config.BeanReference;
 import com.ricci.springframework.beans.factory.support.DefaultListableBeanFactory;
+import com.ricci.springframework.test.bean.UserDao;
 import com.ricci.springframework.test.bean.UserService;
 import org.junit.Test;
 
@@ -12,13 +16,24 @@ public class ApiTest {
     //
     //--add-opens java.base/java.lang=ALL-UNNAMED
     @Test
-    public void test_BeanFactory(){
-        DefaultListableBeanFactory beanFactory= new DefaultListableBeanFactory();
+    public void test_BeanFactory() {
+        //1.
+        DefaultListableBeanFactory beanFactory = new DefaultListableBeanFactory();
 
-        BeanDefinition beanDefinition=new BeanDefinition(UserService.class);
+        //2.
+        beanFactory.registryBeanDefinition("userDao", new BeanDefinition(UserDao.class));
+
+        //3.
+        PropertyValues propertyValues = new PropertyValues();
+        propertyValues.addPropertyValue(new PropertyValue("uID", "21322"));
+        propertyValues.addPropertyValue(new PropertyValue("userDao", new BeanReference("userDao")));
+
+        //4.
+        BeanDefinition beanDefinition = new BeanDefinition(UserService.class, propertyValues);
         beanFactory.registryBeanDefinition("UserService",beanDefinition);
 
-        UserService userService= (UserService) beanFactory.getBean("UserService","Ricci");
+        //5.
+        UserService userService = (UserService) beanFactory.getBean("UserService");
         userService.queryUserInfo();
     }
 }

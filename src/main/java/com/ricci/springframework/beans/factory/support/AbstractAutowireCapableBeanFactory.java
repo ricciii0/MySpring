@@ -1,7 +1,11 @@
 package com.ricci.springframework.beans.factory.support;
 
-import com.ricci.springframework.beans.factory.BeanException;
+import cn.hutool.core.bean.BeanUtil;
+import com.ricci.springframework.beans.BeanException;
+import com.ricci.springframework.beans.PropertyValue;
+import com.ricci.springframework.beans.PropertyValues;
 import com.ricci.springframework.beans.factory.config.BeanDefinition;
+import com.ricci.springframework.beans.factory.config.BeanReference;
 
 import java.lang.reflect.Constructor;
 
@@ -13,7 +17,8 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
     protected Object createBean(String beanName, BeanDefinition beanDefinition, Object[] args) throws BeanException {
         Object bean = null;
         try {
-            bean = createBeanInstance(beanName,beanDefinition,args);
+            bean = createBeanInstance(beanName, beanDefinition, args);
+            applyPropertyValues(beanName,bean,beanDefinition);
         } catch (Exception e) {
             throw new BeanException("Instantiation of bean failed", e);
         }
@@ -43,6 +48,26 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
             }
         }
         return instantiationStrategy.instantiate(beanDefinition, beanName, constructorToUse, args);
+    }
+
+    public void applyPropertyValues(String beanName, Object bean, BeanDefinition beanDefinition) {
+        try {
+            PropertyValues propertyValues = beanDefinition.getPropertyValues();
+            if (propertyValues == null) {
+                return;
+            }
+            for (PropertyValue propertyValue : propertyValues.getPropertyValues()) {
+                String name = propertyValue.getName();
+                Object value = propertyValue.getValue();
+                if (value instanceof BeanReference) {
+                    BeanReference beanReference = (BeanReference) value;
+                    value = getBean(beanReference.getBeanName());
+                }
+                BeanUtil.setFieldValue(bean, name, value);
+            }
+        } catch (Exception e) {
+            throw new BeanException("Error setting property values：" + beanName, e);
+        }
     }
 
     private boolean isMatchParamTypes(Object[] args, Class<?>[] paramTypes) {

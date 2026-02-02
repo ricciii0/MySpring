@@ -1,6 +1,6 @@
 package com.ricci.springframework.beans.factory.support;
 
-import com.ricci.springframework.beans.factory.BeanException;
+import com.ricci.springframework.beans.BeanException;
 import com.ricci.springframework.beans.factory.BeanFactory;
 import com.ricci.springframework.beans.factory.config.BeanDefinition;
 

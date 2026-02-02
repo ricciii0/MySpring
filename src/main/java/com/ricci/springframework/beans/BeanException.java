@@ -1,4 +1,4 @@
-package com.ricci.springframework.beans.factory;
+package com.ricci.springframework.beans;
 
 public class BeanException extends RuntimeException {
 
